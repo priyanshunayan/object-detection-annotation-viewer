@@ -44,10 +44,16 @@ export default {
                             rectangle.onMouseEnter =  () => {// Layout the tooltip above the dot
                                 text.visible = true;
                             };
+                            text.onMouseEnter = () => {
+                                text.visible = true;
+                            }
                             rectangle.onMouseLeave = () => {
                                 text.visible = false;
                             
                             };
+                            text.onMouseLeave = () => {
+                                text.visible = false;
+                            }
                         });
                     }
             },
@@ -99,7 +105,6 @@ export default {
                     const raster = new paper.Raster({
                              source: `${this.publicUrl}static/${image.file_name}`,
                     });
-                    
                     raster.onLoad = () => {
                         raster.position = paper.view.center;
                         raster.size = paper.view.size;
