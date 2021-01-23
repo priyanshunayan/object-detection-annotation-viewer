@@ -1,5 +1,5 @@
 <template>
-<div>   
+<div>  
     <div class="image-container">
             <canvas v-for="(index) in length" :key="index" class="canvas-image" :id="index" v-on:click="fullscreen"> 
             </canvas>
@@ -14,6 +14,7 @@ import paper from "paper"
 // import {onMounted} from "vue"
 
 export default {
+        props: ['checked'],
         data(){
             return {
                 publicUrl: process.env.BASE_URL,
@@ -23,6 +24,33 @@ export default {
             }
         },
         methods:{
+            paintBoxes(image, ratioX, ratioY){
+                if(this.checked){
+                        console.log(this.checked);
+                        const bboxes = this.extractBbox(image["id"]);
+                        bboxes.forEach(bbox => {                            
+                            const point1 = new paper.Point(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
+                            const point2 = new paper.Size(bbox['bbox'][2]*ratioX, bbox['bbox'][3]*ratioY);
+                            const rectangle = new paper.Path.Rectangle(point1, point2);
+                            const text = new paper.PointText(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
+                            text.justification = 'center';
+                            text.fillColor = 'black';
+                            text.content = bbox['name'];
+                            text.visible = false;
+                            rectangle.strokeColor = bbox['color'];
+                            rectangle.opacity = 0.4;
+                            rectangle.fillColor = bbox['color'];
+                            text.fontSize = "20px";
+                            rectangle.onMouseEnter =  () => {// Layout the tooltip above the dot
+                                text.visible = true;
+                            };
+                            rectangle.onMouseLeave = () => {
+                                text.visible = false;
+                            
+                            };
+                        });
+                    }
+            },
             fullscreen(event){
                 console.log("i am clicked", event)
                 const fullScreen = document.getElementById('fullScreen');
@@ -58,31 +86,9 @@ export default {
                     raster.onLoad = () => {
                         raster.position = paper.view.center;
                         raster.size = paper.view.size;
-
                     }
-                    const bboxes = this.extractBbox(image["id"]);
-                    bboxes.forEach(bbox => {                            
-                            const point1 = new paper.Point(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
-                            const point2 = new paper.Size(bbox['bbox'][2]*ratioX, bbox['bbox'][3]*ratioY);
-                            const rectangle = new paper.Path.Rectangle(point1, point2);
-                            const text = new paper.PointText(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
-                            text.justification = 'center';
-                            text.fillColor = 'black';
-                            text.content = bbox['name'];
-                            text.visible = false;
-                            rectangle.strokeColor = bbox['color'];
-                            rectangle.opacity = 0.4;
-                            rectangle.fillColor = bbox['color'];
-                            text.fontSize = "20px";
-                            rectangle.onMouseEnter =  () => {// Layout the tooltip above the dot
-                                text.visible = true;
-                            };
-                            rectangle.onMouseLeave = () => {
-                                text.visible = false;
-                            
-                            };
-                        });
-                console.log(id);
+                    this.paintBoxes(image, ratioX, ratioY)
+                    console.log(id);
             },
             paintImages(){
                 this.images.forEach((image, index) => {
@@ -101,30 +107,7 @@ export default {
                         raster.size = paper.view.size;
 
                     }
-                    const bboxes = this.extractBbox(image["id"]);
-                    bboxes.forEach(bbox => {                            
-                            const point1 = new paper.Point(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
-                            const point2 = new paper.Size(bbox['bbox'][2]*ratioX, bbox['bbox'][3]*ratioY);
-                            const rectangle = new paper.Path.Rectangle(point1, point2);
-
-                            const text = new paper.PointText(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
-                            text.justification = 'center';
-                            text.fillColor = 'black';
-                            text.content = bbox['name'];
-                            text.visible = false;
-                            rectangle.strokeColor = bbox['color'];
-                            rectangle.opacity = 0.4;
-                            rectangle.fillColor = bbox['color'];
-                            text.fontSize = "20px";
-                            rectangle.onMouseEnter =  () => {// Layout the tooltip above the dot
-                                text.visible = true;
-                            };
-                            rectangle.onMouseLeave = () => {
-                                text.visible = false;
-                                //rectangle.fillColor = null;
-                            
-                            };
-                        });
+                    this.paintBoxes(image, ratioX, ratioY);
                 });
 
             },
@@ -147,6 +130,11 @@ export default {
         mounted(){
             window.addEventListener('keypress', this.close)
             this.paintImages();
+        },
+        watch: {
+            checked: function(){
+                this.paintImages()
+            }
         }
     }
 </script>
