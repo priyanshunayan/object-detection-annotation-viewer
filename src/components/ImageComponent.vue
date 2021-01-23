@@ -11,7 +11,7 @@
 <script>
 import data from "../data/cars.json"
 import paper from "paper"
-// import {onMounted} from "vue"
+
 
 export default {
         props: ['checked'],
@@ -99,7 +99,7 @@ export default {
                     const ratioY = 500/ image['height'];
                     paper.setup(canvas);
                     const raster = new paper.Raster({
-                            source: `${this.publicUrl}static/${image.file_name}`,
+                             source: `${this.publicUrl}static/${image.file_name}`,
                     });
                     
                     raster.onLoad = () => {
