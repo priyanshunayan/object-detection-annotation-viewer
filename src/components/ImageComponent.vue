@@ -53,19 +53,25 @@ export default {
                             text.fillColor = 'black';
                             text.content = bbox['name'];
                             text.visible = false;
-                            
+                            rectangle.strokeColor = bbox['color'];
+                            rectangle.opacity = 0.5;
+                            rectangle.fillColor = bbox['color'];
+                            text.fontSize = "20px";
                             rectangle.onMouseEnter =  () => {// Layout the tooltip above the dot
                                 console.log("eneters");
                                 text.visible = true;
+                                
                               
                             };
                             rectangle.onMouseLeave = () => {
                                 console.log("leave");
                                 text.visible = false;
+                                //rectangle.fillColor = null;
                             
                             };
                             
-                            rectangle.strokeColor = bbox['color'];
+                            
+                            
                         })    
                 });
 
