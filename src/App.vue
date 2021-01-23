@@ -1,7 +1,11 @@
 <template>
 <div>
-  <h1>Hello there {{name}}</h1>
-  <image-component :circle_diameter="20"></image-component>
+  <h1>Object Detection</h1>
+  <p>Hover over highlighted object to know what part of car it is! </p>
+  <p> Click on the image to see it full screen. Press any key to close </p>
+  <image-component></image-component>
+  <input type="checkbox" id="checkbox" v-model="checked">
+<label for="checkbox">{{ checked }}</label>
 </div>
 </template>
 
