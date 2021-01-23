@@ -1,0 +1,182 @@
+{
+  "images": [
+    {
+      "id": 28,
+      "dataset_id": 3,
+      "category_ids": [],
+      "path": "/datasets/Car/dima-black-DwxlhTvC16Q-unsplash.jpg",
+      "width": 2724,
+      "height": 3405,
+      "file_name": "dima-black-DwxlhTvC16Q-unsplash.jpg",
+      "annotated": false,
+      "annotating": [],
+      "num_annotations": 0,
+      "metadata": {},
+      "deleted": false,
+      "milliseconds": 0,
+      "events": [],
+      "regenerate_thumbnail": false
+    },
+    {
+      "id": 29,
+      "dataset_id": 3,
+      "category_ids": [],
+      "path": "/datasets/Car/hakon-sataoen-qyfco1nfMtg-unsplash.jpg",
+      "width": 5295,
+      "height": 3725,
+      "file_name": "hakon-sataoen-qyfco1nfMtg-unsplash.jpg",
+      "annotated": false,
+      "annotating": [],
+      "num_annotations": 0,
+      "metadata": {},
+      "deleted": false,
+      "milliseconds": 0,
+      "events": [],
+      "regenerate_thumbnail": false
+    },
+    {
+      "id": 30,
+      "dataset_id": 3,
+      "category_ids": [],
+      "path": "/datasets/Car/joey-banks-YApiWyp0lqo-unsplash.jpg",
+      "width": 5143,
+      "height": 3429,
+      "file_name": "joey-banks-YApiWyp0lqo-unsplash.jpg",
+      "annotated": false,
+      "annotating": [],
+      "num_annotations": 0,
+      "metadata": {},
+      "deleted": false,
+      "milliseconds": 0,
+      "events": [],
+      "regenerate_thumbnail": false
+    },
+    {
+      "id": 31,
+      "dataset_id": 3,
+      "category_ids": [],
+      "path": "/datasets/Car/joshua-koblin-eqW1MPinEV4-unsplash.jpg",
+      "width": 5041,
+      "height": 3361,
+      "file_name": "joshua-koblin-eqW1MPinEV4-unsplash.jpg",
+      "annotated": false,
+      "annotating": [],
+      "num_annotations": 0,
+      "metadata": {},
+      "deleted": false,
+      "milliseconds": 0,
+      "events": [],
+      "regenerate_thumbnail": false
+    }
+  ],
+  "categories": [
+    {
+      "id": 2,
+      "name": "Car",
+      "supercategory": "Vechile",
+      "color": "#a95713",
+      "metadata": {},
+      "keypoint_colors": []
+    }
+  ],
+  "annotations": [
+    {
+      "id": 9,
+      "image_id": 28,
+      "category_id": 2,
+      "segmentation": [
+        [2011.7, 1801.4, 2011.7, 2381.6, 1773.7, 2381.6, 1773.7, 1801.4]
+      ],
+      "area": 138278,
+      "bbox": [1774.0, 1801.0, 238.0, 581.0],
+      "iscrowd": false,
+      "isbbox": true,
+      "color": "#4e46d7",
+      "metadata": { "name": "wheel" }
+    },
+    {
+      "id": 10,
+      "image_id": 28,
+      "category_id": 2,
+      "segmentation": [
+        [2209.5, 1665.1, 2209.5, 2108.9, 1979.6, 2108.9, 1979.6, 1665.1]
+      ],
+      "area": 102120,
+      "bbox": [1980.0, 1665.0, 230.0, 444.0],
+      "iscrowd": false,
+      "isbbox": true,
+      "color": "#77cb2b",
+      "metadata": { "name": "door" }
+    },
+    {
+      "id": 11,
+      "image_id": 29,
+      "category_id": 2,
+      "segmentation": [
+        [3378.7, 2432.4, 3378.7, 2967.2, 2991.2, 2967.2, 2991.2, 2432.4]
+      ],
+      "area": 207580,
+      "bbox": [2991.0, 2432.0, 388.0, 535.0],
+      "iscrowd": false,
+      "isbbox": true,
+      "color": "#27f2ce",
+      "metadata": { "name": "wheel" }
+    },
+    {
+      "id": 12,
+      "image_id": 29,
+      "category_id": 2,
+      "segmentation": [
+        [4347.4, 2150.2, 4347.4, 2718.8, 3665.1, 2718.8, 3665.1, 2150.2]
+      ],
+      "area": 388058,
+      "bbox": [3665.0, 2150.0, 682.0, 569.0],
+      "iscrowd": false,
+      "isbbox": true,
+      "color": "#f1ce61",
+      "metadata": { "name": "door" }
+    },
+    {
+      "id": 14,
+      "image_id": 30,
+      "category_id": 2,
+      "segmentation": [
+        [1602.2, 1814.1, 1602.2, 2794.1, 1101.5, 2794.1, 1101.5, 1814.1]
+      ],
+      "area": 490000,
+      "bbox": [1102.0, 1814.0, 500.0, 980.0],
+      "iscrowd": false,
+      "isbbox": true,
+      "color": "#b00404",
+      "metadata": { "name": "wheel" }
+    },
+    {
+      "id": 15,
+      "image_id": 31,
+      "category_id": 2,
+      "segmentation": [
+        [3222.5, 2044.7, 3222.5, 3058.0, 2578.6, 3058.0, 2578.6, 2044.7]
+      ],
+      "area": 652372,
+      "bbox": [2579.0, 2045.0, 644.0, 1013.0],
+      "iscrowd": false,
+      "isbbox": true,
+      "color": "#6801b8",
+      "metadata": { "name": "wheel" }
+    },
+    {
+      "id": 16,
+      "image_id": 31,
+      "category_id": 2,
+      "segmentation": [
+        [4135.6, 1941.8, 4135.6, 2488.0, 3296.4, 2488.0, 3296.4, 1941.8]
+      ],
+      "area": 458640,
+      "bbox": [3296.0, 1942.0, 840.0, 546.0],
+      "iscrowd": false,
+      "isbbox": true,
+      "color": "#c4005f",
+      "metadata": { "name": "door" }
+    }
+  ]
+}

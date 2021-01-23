@@ -1,15 +1,21 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<div>
+  <h1>Hello there {{name}}</h1>
+  <image-component :circle_diameter="20"></image-component>
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ImageComponent from "./components/ImageComponent"
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ImageComponent
+  },
+  data(){
+    return {
+      name: "Priyanshu Nayan"
+    }
   }
 }
 </script>
