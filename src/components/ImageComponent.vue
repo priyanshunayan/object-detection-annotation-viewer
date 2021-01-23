@@ -1,7 +1,7 @@
 <template>
 <div>  
     <div class="image-container">
-            <canvas v-for="(index) in length" :key="index" class="canvas-image" :id="index" v-on:click="fullscreen"> 
+            <canvas v-for="(index) in length" :key="index" class="canvas-image" :id="index" v-on:dblclick="fullscreen"> 
             </canvas>
     </div>
     <canvas id="fullScreen" @keyup.delete="close"></canvas>
@@ -26,7 +26,6 @@ export default {
         methods:{
             paintBoxes(image, ratioX, ratioY){
                 if(this.checked){
-                        console.log(this.checked);
                         const bboxes = this.extractBbox(image["id"]);
                         bboxes.forEach(bbox => {                            
                             const point1 = new paper.Point(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
@@ -34,8 +33,9 @@ export default {
                             const rectangle = new paper.Path.Rectangle(point1, point2);
                             const text = new paper.PointText(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
                             text.justification = 'center';
-                            text.fillColor = 'black';
-                            text.content = bbox['name'];
+                            text.fillColor = 'red';
+                            text.strokeColor= "red";
+                            text.content = `Object: ${bbox['name']} \n ConfidenceValue: ${Math.random().toFixed(2)} \n AnnotationSize: ${bbox['size']}px `;
                             text.visible = false;
                             rectangle.strokeColor = bbox['color'];
                             rectangle.opacity = 0.4;
@@ -52,7 +52,6 @@ export default {
                     }
             },
             fullscreen(event){
-                console.log("i am clicked", event)
                 const fullScreen = document.getElementById('fullScreen');
                 fullScreen.style.display = "block";
                 window.scrollTo(0,0)
@@ -63,7 +62,7 @@ export default {
                 });          
                 },
             close(){
-                console.log("trying to close....")
+
                 const fullScreen = document.getElementById('fullScreen');
                 fullScreen.style.display = "none";
                 const cans = document.getElementsByClassName('canvas-image');
@@ -88,7 +87,6 @@ export default {
                         raster.size = paper.view.size;
                     }
                     this.paintBoxes(image, ratioX, ratioY)
-                    console.log(id);
             },
             paintImages(){
                 this.images.forEach((image, index) => {
@@ -119,6 +117,7 @@ export default {
                     res['name'] = filter["metadata"]["name"];
                     res['bbox'] = filter["bbox"];
                     res["color"]= filter["color"];
+                    res["size"] = filter['area'];
                     result.push(res);
                 });
                 return result;
@@ -148,7 +147,18 @@ export default {
         display: flex;
         width: 80%;
         flex-wrap: wrap;
-        margin: 0 auto
+        margin: 0 auto;
+        align-items: center;
+        justify-content: center;
+    }
+    .canvas-image{
+        margin: 0.5em;
+        border-radius: 5px;
+        opacity: 0.8;
+        transition: opacity .3s ease-out
+    }
+    .canvas-image:hover{
+        opacity:1;
     }
     #fullScreen{
         position: absolute;

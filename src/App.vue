@@ -1,8 +1,8 @@
 <template>
 <div>
-  <h1>Object Detection</h1>
+  <h1>Object Detection Annotation Viewer</h1>
   <h3>Hover over highlighted object to know what part of car it is! </h3>
-  <h3> Click on the image to see it in full screen. Press any key to close full screen view </h3>
+  <h3> Double Click on the image to see it in full screen. Press any key to close full screen view </h3>
     <input type="checkbox" id="checkbox" v-model="checked">
     <label for="checkbox">Toogle Labels from here</label>
   <image-component :checked="checked"></image-component>
