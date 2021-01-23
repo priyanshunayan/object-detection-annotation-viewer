@@ -10,7 +10,6 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "paper": "^0.12.11",
-    "v-tooltip": "^2.1.2",
     "vue": "^3.0.0"
   },
   "devDependencies": {
