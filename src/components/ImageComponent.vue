@@ -18,13 +18,14 @@ export default {
         props: ['showWindows', 'showDoors', 'showWheels'],
         data(){
             return {
-                publicUrl: process.env.BASE_URL,
-                images: data['images'],
-                length: data['images'].length,
-                annotations: data['annotations']
+                publicUrl: process.env.BASE_URL, /* Access assets from public/static */
+                images: data['images'],  /* Images from dataset*/
+                length: data['images'].length, /* Length of Images from dataset*/
+                annotations: data['annotations'] /* Annotations from dataset */
             }
         },
         methods:{
+            /* Draw BBoxes on image on the basis of ratio of resizing, and adding text on top layer */
             paintBoxes(image, ratioX, ratioY){
                         const bboxes = this.extractBbox(image["id"]);
                         bboxes.forEach(bbox => {
@@ -87,6 +88,7 @@ export default {
                             }
                         });
             },
+            /* display full screen helper method */
             fullscreen(event){
                 const fullScreen = document.getElementById('fullScreen');
                 fullScreen.style.display = "block";
@@ -96,7 +98,8 @@ export default {
                 cans.forEach(can => {
                     can.style.display = "none";
                 });          
-                },
+            },
+            /* closing full screen mode */
             close(){
 
                 const fullScreen = document.getElementById('fullScreen');
@@ -106,6 +109,7 @@ export default {
                     can.style.display = "flex";
                 });
             },
+            /* Painting Single Image, boxes and text in full screen mode */
             paintSingleImage(id, showText=false){
                     const image = this.images[id-1];
                     const canvas = document.getElementById("fullScreen"); 
@@ -139,6 +143,7 @@ export default {
                     }
                     this.paintBoxes(image, ratioX, ratioY)
             },
+            /* Make Raster Images and call helper functions to get all things done */
             paintImages(){
                 this.images.forEach((image, index) => {
                     const canvas = document.getElementById(String(index+1)); 
@@ -159,6 +164,7 @@ export default {
                 });
 
             },
+            /* Extracting annotation data from dataset */
             extractBbox(id){
                 const result = [];
                 const filtered = this.annotations.filter(annotation => annotation["image_id"] === id);
@@ -176,10 +182,12 @@ export default {
                 return `${this.publicUrl}static/${file_name}`
             },
         },
+        /* mounted event listener listens to keypress and calls to close full screen and calls paintImages */
         mounted(){
             window.addEventListener('keypress', this.close)
             this.paintImages();
         },
+        /* watching doors and windows if they are available to show and call to paint */
         watch: {
             showDoors: function(){
                 this.paintImages()
