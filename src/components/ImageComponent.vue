@@ -5,7 +5,6 @@
             </canvas>
     </div>
     <canvas id="fullScreen" @keyup.delete="close">
-        <p>Hey tehre! </p>
     </canvas>
     </div>
 </template>
