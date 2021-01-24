@@ -1,10 +1,12 @@
 <template>
 <div>  
     <div class="image-container">
-            <canvas v-for="(index) in length" :key="index" class="canvas-image" :id="index" v-on:dblclick="fullscreen"> 
+            <canvas v-for="(index) in length" :key="index" class="canvas-image" :id="index" v-on:click="fullscreen"> 
             </canvas>
     </div>
-    <canvas id="fullScreen" @keyup.delete="close"></canvas>
+    <canvas id="fullScreen" @keyup.delete="close">
+        <p>Hey tehre! </p>
+    </canvas>
     </div>
 </template>
 
@@ -14,7 +16,7 @@ import paper from "paper"
 
 
 export default {
-        props: ['checked'],
+        props: ['showWindows', 'showDoors', 'showWheels'],
         data(){
             return {
                 publicUrl: process.env.BASE_URL,
@@ -25,43 +27,72 @@ export default {
         },
         methods:{
             paintBoxes(image, ratioX, ratioY){
-                if(this.checked){
                         const bboxes = this.extractBbox(image["id"]);
-                        bboxes.forEach(bbox => {                            
+                        bboxes.forEach(bbox => {
+                            if((bbox['name'] == "door" && this.showDoors) || (bbox['name'] == "wheels" && this.showWheels) || (bbox['name'] == "wheel" && this.showWheels) || (bbox['name'] == "window" && this.showWindows)){                            
                             const point1 = new paper.Point(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
                             const point2 = new paper.Size(bbox['bbox'][2]*ratioX, bbox['bbox'][3]*ratioY);
                             const rectangle = new paper.Path.Rectangle(point1, point2);
                             const text = new paper.PointText(bbox['bbox'][0]*ratioX, bbox['bbox'][1]*ratioY);
                             text.justification = 'center';
-                            text.fillColor = 'red';
-                            text.strokeColor= "red";
+                            text.fillColor = 'white';
+                            text.strokeColor= "white";
                             text.content = `Object: ${bbox['name']} \n ConfidenceValue: ${Math.random().toFixed(2)} \n AnnotationSize: ${bbox['size']}px `;
                             text.visible = false;
+                            text.fontFamily = 'Avenir';
+                            text.justification = 'center';
                             rectangle.strokeColor = bbox['color'];
                             rectangle.opacity = 0.4;
                             rectangle.fillColor = bbox['color'];
-                            text.fontSize = "20px";
+                            const textRect = new paper.Path.Rectangle(text.bounds);
+                            textRect.fillColor = 'black';
+                            textRect.strokeColor = 'black';
+
+                            text.insertAbove(textRect);
+                            textRect.visible = false;
                             rectangle.onMouseEnter =  () => {// Layout the tooltip above the dot
                                 text.visible = true;
+                                textRect.visible = true;
+                                rectangle.opacity = 0.8;
+                                document.body.style.cursor = "pointer";
+
                             };
                             text.onMouseEnter = () => {
                                 text.visible = true;
+                                textRect.visible = true;
+                                rectangle.opacity = 0.8;
+                                document.body.style.cursor = "pointer";
                             }
                             rectangle.onMouseLeave = () => {
                                 text.visible = false;
-                            
+                                textRect.visible = false;
+                                rectangle.opacity = 0.4;
+                                document.body.style.cursor = "auto";
                             };
                             text.onMouseLeave = () => {
                                 text.visible = false;
+                                textRect.visible = false;
+                                rectangle.opacity = 0.4;
+                                document.body.style.cursor = "auto";
+                            }
+                            textRect.onMouseEnter = () => {
+                                textRect.visible = true;
+                                rectangle.opacity = 0.8;
+                                document.body.style.cursor = "pointer";
+                            }
+                            textRect.onMouseLeave= () => {
+                                textRect.visible = false;
+                                rectangle.opacity = 0.4;
+                                document.body.style.cursor = "auto";
+                            }
                             }
                         });
-                    }
             },
             fullscreen(event){
                 const fullScreen = document.getElementById('fullScreen');
                 fullScreen.style.display = "block";
                 window.scrollTo(0,0)
-                this.paintSingleImage(event.srcElement.id);
+                this.paintSingleImage(event.srcElement.id, true);
                 const cans = document.getElementsByClassName('canvas-image');
                 cans.forEach(can => {
                     can.style.display = "none";
@@ -76,7 +107,7 @@ export default {
                     can.style.display = "flex";
                 });
             },
-            paintSingleImage(id){
+            paintSingleImage(id, showText=false){
                     const image = this.images[id-1];
                     const canvas = document.getElementById("fullScreen"); 
                     canvas.width = window.innerWidth;
@@ -87,7 +118,22 @@ export default {
                     const raster = new paper.Raster({
                             source: `${this.publicUrl}static/${image.file_name}`,
                     });
-                    
+                    if(showText){
+                     const text = new paper.PointText(window.innerWidth/2,window.innerHeight-10);
+                            text.justification = 'center';
+                            text.fillColor = 'white';
+                            text.strokeColor= "white";
+                            text.content = `Press any key to close`;
+                            text.visible = true;
+                            text.fontFamily = 'Avenir';
+                            text.justification = 'center';
+                            text.fontSize = '1.5em'
+                            const textRect = new paper.Path.Rectangle(text.bounds);
+                            textRect.fillColor = '#898989';
+                            textRect.strokeColor = '#898989';
+                            text.insertAbove(textRect);
+                    }
+
                     raster.onLoad = () => {
                         raster.position = paper.view.center;
                         raster.size = paper.view.size;
@@ -136,7 +182,13 @@ export default {
             this.paintImages();
         },
         watch: {
-            checked: function(){
+            showDoors: function(){
+                this.paintImages()
+            },
+            showWindows: function(){
+                this.paintImages()
+            },
+            showWheels: function(){
                 this.paintImages()
             }
         }
@@ -162,8 +214,17 @@ export default {
         opacity: 0.8;
         transition: opacity .3s ease-out
     }
+    .pointer{
+        cursor: pointer;
+    }
     .canvas-image:hover{
         opacity:1;
+    }
+    #closeInstruction{
+        position: absolute;
+        bottom: 0;
+        left:0;
+        font-size: 1.5em;
     }
     #fullScreen{
         position: absolute;
